@@ -47,5 +47,6 @@ set of int: Cells            = 1..(scheduleLength * numberEmployees);
 set of int: ForbiddenShifts2 = 1..numberForbiddenShifts2;
 set of int: ForbiddenShifts3 = 1..numberForbiddenShifts3;
 
-string: dayOfLabel = "-";
-array[Shifts] of par string: allShiftNames = array1d(Shifts, [dayOfLabel] ++ shiftNames);
+int: dayOff = 0;
+string: dayOffLabel = "-";
+array[Shifts] of par string: allShiftNames = array1d(Shifts, [dayOffLabel] ++ shiftNames);
