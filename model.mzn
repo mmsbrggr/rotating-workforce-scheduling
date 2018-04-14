@@ -43,6 +43,21 @@ constraint forall (c in Cells) (
     forall (o in 1..minDaysOff) (flat[c + o] = dayOff)
 );
 
+% Ensures for every type of shift the maximum allowed concecutive shifts
+constraint forall (shift in WorkShifts) (
+    forall (c in Cells) (        
+        sum (o in 0..maxDaysShift[shift]) (bool2int(flat[c + o] != shift)) > 0
+    )
+);
+
+% Ensures for every type of shift the minimum allowed concecutive shifts
+constraint forall (shift in WorkShifts) (
+    forall (c in Cells) (        
+        (flat[c] != shift /\ flat[c + 1] = shift) ->
+        forall (o in 1..minDaysShift[shift]) (flat[c + o] = shift)
+    )
+);
+
 solve satisfy;
 
 %
