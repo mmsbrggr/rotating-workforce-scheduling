@@ -79,7 +79,10 @@ constraint forall (day in Days) (
        (bool2int(schedule[e,day] = dayOff)) = dayOffRequirements[day] 
 );
 
-solve satisfy;
+
+% solve satisfy;
+solve :: int_search(flat, smallest, indomain_min, complete) satisfy;
+
 
 %
 % Output 
