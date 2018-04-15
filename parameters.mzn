@@ -50,3 +50,45 @@ set of int: ForbiddenShifts3 = 1..numberForbiddenShifts3;
 int: dayOff = 0;
 string: dayOffLabel = "-";
 array[Shifts] of par string: allShiftNames = array1d(Shifts, [dayOffLabel] ++ shiftNames);
+
+% Represents the number of employees which have not to work on that day
+% This is used for a redundant constraint to improve performance
+array[Days] of int: dayOffRequirements =
+    [numberEmployees - sum (s in WorkShifts) (requirements[s,d]) | d in Days];
+
+%
+% Asserts to ensure the parameters are sane
+% -----------------------------------------
+
+constraint assert(scheduleLength > 0, "The schedule length has to be positive");
+
+constraint assert(numberEmployees > 0, "The number of employees has to be positive");
+
+constraint assert(numberShifts > 0, "The number of shifts has to be positive");
+
+constraint assert(
+    minDaysOff > 0 /\ maxDaysOff >= minDaysOff,
+    "Minimum and maximum length of day offs blocks are not correct"
+);
+
+constraint assert(
+    minDaysWork > 0 /\ maxDaysWork >= minDaysWork,
+    "Minimum and maximum length of work blocks are not correct"
+);
+
+constraint assert(forall (s in WorkShifts) (
+    minDaysShift[s] > 0 /\ maxDaysShift[s] >= minDaysShift[s]
+), "Minimum and maximum length of shift blocks are not correct");
+
+constraint assert(forall (s in WorkShifts, d in Days) (
+    requirements[s,d] >= 0
+), "The requirements have to be non-negative");
+
+constraint assert(forall (fs in ForbiddenShifts2) (
+    forbiddenShifts2[fs,1] in WorkShifts /\ forbiddenShifts2[fs,2] in WorkShifts
+), "The forbidden shifts patterns have to include proper shifts");
+
+constraint assert(forall (fs in ForbiddenShifts3) (
+    forbiddenShifts3[fs,1] in WorkShifts /\ forbiddenShifts3[fs,2] in WorkShifts
+), "The forbidden shifts patterns have to include proper shifts");
+
