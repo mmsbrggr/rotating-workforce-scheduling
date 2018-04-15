@@ -1,0 +1,20 @@
+scheduleLength  = 7;
+numberEmployees = 33;
+numberShifts    = 2;
+minDaysOff      = 2;
+maxDaysOff      = 4;
+minDaysWork     = 3;
+maxDaysWork     = 7;
+shiftNames      = ["D", "A"];
+minDaysShift    = [2, 2];
+maxDaysShift    = [6, 5];
+
+requirements = [| 14, 12, 11, 12, 14, 12, 12,
+                | 10, 10, 11, 11, 10, 10, 10 |];
+
+numberForbiddenShifts2 = 1;
+forbiddenShifts2 = [| 2, 1 |];
+
+numberForbiddenShifts3 = 0;
+forbiddenShifts3 = array2d({},1..2,[]);
+
