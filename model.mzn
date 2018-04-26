@@ -77,6 +77,7 @@ constraint forall (day in Days) (
 
 % solve satisfy;
 solve :: int_search(schedule, smallest, indomain_min, complete) satisfy;
+% solve :: int_search(schedule, input_order, indomain, complete) satisfy;
 
 
 %
